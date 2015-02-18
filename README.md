@@ -24,6 +24,21 @@ Search engine for address. Only address.
     pip install -r requirements.txt
 
 
+# Install with docker
+
+1. Run a redis container in background
+
+    sudo docker run -d --name myredis redis
+
+1. Build the addok container (once in the addok directory)
+
+    sudo docker build -t addok .
+
+1. Run the addok container
+
+    sudo docker run --net container:myredis addok
+
+
 # Import data
 
 1. Download [BANO data](bano.openstreetmap.fr/data/full.sjson.gz) and uncompress
