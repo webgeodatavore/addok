@@ -72,6 +72,7 @@ normalize = yielder(_normalize)
 SYNONYMS = {}
 
 
+@config.on_load
 def load_synonyms():
     with Path(config.SYNONYMS_PATH).open() as f:
         for line in f:
@@ -85,7 +86,6 @@ def load_synonyms():
                 if not synonym:
                     continue
                 SYNONYMS[synonym] = wanted
-load_synonyms()
 
 
 def _synonymize(t):
