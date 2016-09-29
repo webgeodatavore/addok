@@ -1,34 +1,34 @@
 # API
 
-Addok exposes an very minimal WSGI interface, you can run it with gunicorn
-for example:
+Addok expose une interface WSGI très minimaliste. Vous pouvez l'exécuter avec
+ gunicorn par exemple:
 
     gunicorn addok.server:app
 
-For debug, you can run the simple Werkzeug server:
+Pour le debug, vous pouvez exécuter le serveur Werkzeug simple:
 
     addok serve
 
-## Endpoints
+## Points d'entrée
 
 ### /search/
 
-Issue a full text search.
+Retourne une recherche plein texte.
 
-#### Parameters
+#### Paramètres
 
-- **q** *(required)*: string to be searched
-- **limit**: limit the number of results (default: 5)
-- **autocomplete**: activate or deactivate the autocompletion (default: 1)
-- **lat**/**lon**: define a center for giving priority to results close to this
-  center (**lng** is also accepted instead of **lon**)
-- every filter that has been declared in the [config](config.md) is available as
-  parameters
+- **q** *(requis)*: chaîne à rechercher
+- **limit**: limiter le nombre de résultats (par défaut: 5)
+- **autocomplete**: activer ou désactiver l'autocompletion (par défault: 1)
+- **lat**/**lon**: définir un centre pour donner une priorité aux résultats
+  proche de de ce centre (**lng** est aussi accepté à la place de **lon**)
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+  disponible en tant que paramètre
 
-#### Response format
+#### Format de la réponse
 
-The response format follows the [GeoCodeJSON spec](https://github.com/yohanboniface/geocodejson-spec).
-Here is an example:
+Le format de la réponse suit la [spécification GeoCodeJSON](https://github.com/yohanboniface/geocodejson-spec).
+Voici un exemple:
 
 ```
 {
@@ -84,64 +84,69 @@ Here is an example:
 
 ### /reverse/
 
-Issue a reverse geocoding.
+Retourne un géocodage inverse.
 
-Parameters:
+Paramètres:
 
-- **lat**/**lon** *(required)*: center to reverse geocode (**lng** is also
-  accepted instead of **lon**)
-- every filter that has been declared in the [config](config.md) is available as
-  parameters
+- **lat**/**lon**: centre pour faire un géocodage inverse (**lng** est aussi
+  accepté à la place de **lon**)
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+  disponible en tant que paramètre
 
-Same response format as the `/search/` enpoint.
-
+Le format de réponse est le même que pour le point d'entrée `/search/`.
 
 ### /search/csv/
 
-Batch geocode a csv file.
+Géocode sous forme batch un fichier csv.
 
-#### Parameters
+#### Paramètres
 
-- **data**: csv file to be processed
-- **columns**: define the columns of the csv to be concatenated to create the
-  search string (one column by `columns` parameter; default: all file columns are used)
-- **encoding** (optional): encoding of the file (you can also specify a `charset` in the
-  file mimetype), such as 'utf-8' or 'iso-8859-1'
-- **delimiter** (optional): CSV delimiter
-- every filter that has been declared in the [config](config.md) is available as
-  parameter, and you must give the column name to use as value; for example, if you want
-  to filter by 'postcode' and you have a column 'code postal' containing the post code of each row,
-  you will pass `postcode=code postal` and every row will be filtered according to the value of 'code postal'
-  column
-- `lat` and `lon` parameters, like filters, can be used to define columns names that contain latitude and longitude
-  values, for adding a preference center in the geocoding of each row
+- **data**: fichier csv qui doit être traité
+- **columns**: définit les colonnes du csv qui doivent être concaténées pour
+   créer la chaîne de recherche (une colonne par paramètre `columns`; par
+   défaut: toutes les colonnes du fichier sont utilisées)
+- **encoding** (optionnel): encodage du fichier (vous pouvez aussi spécifier
+   un jeu de caractères `charset` dans le mimetype du fichier), comme 'utf-8'
+   ou 'iso-8859-1'
+- **delimiter** (optionnel): délimiteur CSV
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+   disponible en tant que paramètre, et vous devez renseigner le nom de la
+   colonne à utiliser comme valeur; par exemple, si vous voulez filtrer par
+   'postcode' et que vous avez une colonne 'code postal' contenant un code
+   postal de chaque ligne, vous passerez `postcode=code postal` et chaque
+   ligne sera filtrée selon la valeur de la colonne 'code postal'
+- les paramètres `lat` et `lon`, comme les filtres, peuvent être utilisés pour
+   définir les noms de colonnes qui contiennent les valeurs de latitude et
+   longitude, pour ajouter un centre de préférence pour géocoder chaque ligne
 
-#### Examples
+#### Exemples
 
     http -f POST http://localhost:7878/search/csv/ columns='voie' columns='ville' data@path/to/file.csv
     http -f POST http://localhost:7878/search/csv/ columns='rue' postcode='code postal' data@path/to/file.csv
 
 ### /reverse/csv/
 
-Batch reverse geocode a csv file.
+Fait un géocodage inverse par batch d'un fichier csv.
 
-#### Parameters
+#### Paramètres
 
-- **data**: csv file to be processed; must contain columns `latitude` (or `lat`) and
-  `longitude` (or `lon` or `lng`)
-- **encoding** (optional): encoding of the file (you can also specify a `charset` in the
-  file mimetype), such as 'utf-8' or 'iso-8859-1'
-- **delimiter** (optional): CSV delimiter
-- every filter that has been declared in the [config](config.md) is available as
-  parameter, and you must give the column name to use as value; for example, if you want
-  to filter by 'postcode' and you have a column 'code postal' containing the post code of each row,
-  you will pass `postcode=code postal` and every row will be filtered according to the value of 'code postal'
-  column
+- **data**: fichier csv qui doit être traité; il doit contenir les colonnes
+   `latitude` (ou `lat`) et `longitude` (ou `lon` ou `lng`)
+- **encoding** (optionnel): encodage du fichier (vous pouvez aussi spécifier
+   un jeu de caractères `charset` dans le mimetype du fichier), comme 'utf-8'
+   ou 'iso-8859-1'
+- **delimiter** (optionnel): délimiteur CSV
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+   disponible en tant que paramètre, et vous devez renseigner le nom de la
+   colonne à utiliser comme valeur; par exemple, si vous voulez filtrer par
+   'postcode' et que vous avez une colonne 'code postal' contenant un code
+   postal de chaque ligne, vous passerez `postcode=code postal` et chaque
+   ligne sera filtrée selon la valeur de la colonne 'code postal'
 
 ### /get/&lt;doc_id&gt;/
 
-Get a document from its id.
+Récupére un document depuis son identifiant.
 
-#### Parameters
+#### Paramètres
 
-- **doc_id**: the id of the document
+- **doc_id**: l'identifiant du document

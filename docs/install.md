@@ -1,23 +1,23 @@
-# Installing Addok
+# Installation de Addok
 
-## Dependencies
+## Dépendances
 
 - Redis
 - python3.4
 
-## Install using a virtualenv
+## Installation en utilisant un environnement virtuel ("virtualenv")
 
-1. Install dependencies:
+1. Installez les dépendances:
 
         sudo apt-get install redis-server python3.4 python3.4-dev python-pip python-virtualenv virtualenvwrapper
 
-1. create a virtualenv:
+1. Créez un environnement virtuel:
 
         mkvirtualenv addok --python=/usr/bin/python3.4
 
-1. install python packages:
+1. installez les paquets Python:
 
         pip install addok
 
-## What to do next?
-Now you certainly want to [configure Addok](config.md), or directly [import data](import.md).
+## Que faire ensuite?
+Maintenant, vous voulez certainement [configurer Addok](config.md), ou directement [importer des données](import.md).
