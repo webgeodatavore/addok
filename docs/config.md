@@ -4,10 +4,7 @@ Par défaut, Addok est configuré pour une base de données adresses françaises
 provenant de France
 *(C'est peut être parce qu'elle a été initialement été codée à Paris… ;) )*
 
-Mais certainement qe vos besoins sont différents, et même dans le cas où vous
-auriez à gérer des données adresses Françaises vous voudrez peut être définir
-**quels sont les champs à indexer** ou **quels filtres sont disponibles** par
-exemple.
+Mais vos besoins sont certainement différents, aussi, dans le cas, par exemple, où vous auriez à gérer des données adresses françaises, ou étrangère, vous voudrez peut-être définir **quels sont les champs à indexer** ou **quels filtres sont disponibles**.
 
 ## Enregistrement de votre fichier de configuration personnalisé
 
@@ -54,7 +51,7 @@ Peut être une chaîne simple ou un dictionnaire Python.
     ATTRIBUTION = {source: attribution, source2: attribution2}
 
 #### EXTRA_FIELDS (liste de dicts)
-Parfois, vous voulez just étendre les [champs par défaut](#fields-liste-de-dicts).
+Parfois vous voulez simplement étendre les [champs par défaut](#fields-liste-de-dicts).
 
     EXTRA_FIELDS = [
         {'key': 'myfield'},
@@ -81,7 +78,7 @@ FIELDS = [
 
 #### FILTERS (liste)
 Une liste de champs qui doivent être indexés comme des filtres disponibles.
-Gardez en mémoire que chaque filtre signifie un index plus gros.
+Souvenez-vous que chaque filtre signifie un index plus gros.
 
     FILTERS = ["type", "postcode"]
 
@@ -94,7 +91,7 @@ Ces champs ne seront pas recherchables, mais seront retournés dans le résultat
 
 #### LICENCE (string ou dict)
 La licence de la donnée retournée dans les résultats de l'API.
-Peut être une chaîne simple ou un dictionnaire Python.
+Elle peut être une chaîne simple ou un dictionnaire Python.
 
     LICENCE = "ODbL"
     # Ou
@@ -194,7 +191,7 @@ Longueur minimum d'un segment n-grammes calculé.
     MIN_EDGE_NGRAMS = 3
 
 #### MAKE_LABELS (func)
-Fonction qui surcharge les étiquettes construites pour la comparaison de chaînes avec la requête au moment du scoring. Prend un objet `result` comme argument et doit retourner une liste de chaînes de caractère.
+Fonction qui surcharge les étiquettes construites pour la comparaison de chaînes avec la requête au moment du scoring. Elle accepte un objet `result` comme argument et doit retourner une liste de chaînes de caractère.
 
     MAKE_LABELS = lambda r: return [r.name + 'my custom thing']
 
