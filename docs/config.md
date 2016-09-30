@@ -4,7 +4,10 @@ Par défaut, Addok est configuré pour une base de données adresses françaises
 provenant de France
 *(C'est peut être parce qu'elle a été initialement été codée à Paris… ;) )*
 
-Mais vos besoins sont certainement différents, aussi, dans le cas, par exemple, où vous auriez à gérer des données adresses françaises, ou étrangère, vous voudrez peut-être définir **quels sont les champs à indexer** ou **quels filtres sont disponibles**.
+Mais vos besoins sont certainement différents, aussi, dans le cas, par exemple,
+où vous auriez à gérer des données adresses françaises, ou étrangère, vous voudrez
+peut-être définir **quels sont les champs à indexer** ou 
+**quels filtres sont disponibles**.
 
 ## Enregistrement de votre fichier de configuration personnalisé
 
