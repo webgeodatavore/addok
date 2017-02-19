@@ -1,32 +1,35 @@
-# Configuring Addok
+# Configurer Addok
 
-By default, Addok is configured for a French database of addresses from France
-*(It may be because it has been initially coded in Paris… ;) )*
+Par défaut, Addok est configuré pour une base de données adresses françaises
+provenant de France
+*(C'est peut être parce qu'elle a été initialement été codée à Paris… ;) )*
 
-But certainly your needs are different, and even if you deal with French addresses
-you may want to define **which fields are indexed** or **which filters are
-available** for example.
+Mais vos besoins sont certainement différents, et même si vous avez des 
+adresses françaises, vous voudrez peut-être définir **quels sont les champs à
+ indexer** ou **quels filtres sont disponibles** par exemple.
 
-*See algo [Redis Tuning](redis.md).*
+*Voir aussi le [tuning de Redis](redis.md).*
 
-## Registering your custom config file
+## Enregistrement de votre fichier de configuration personnalisé
 
-An Addok config file is simply a Python file that define some keys. The default
-location is `/etc/addok/addok.conf`. But it can be anywhere else in your system,
-and you need to define an environment variable that points to it if you want
-a special location:
+Un fichier de configuration Addok est simplement un fichier Python qui
+ définit quelques clés. Son emplacement par défaut est `/etc/addok/addok.conf`.
+Mais peut être n'importe où dans votre système, et vous avez besoin de définir
+ une variable d'environnement qui pointe vers lui si vous voulez un emplacement
+ particulier:
 
     export ADDOK_CONFIG_MODULE=path/to/local.py
 
-You can also use the `--config` argument when running the `addok` command line.
+Vous pouvez aussi utilisez l'argument `--config` quand vous lancer la ligne de
+ commande `addok`.
 
-## Environment settings
+## Configurations de l'environnement
 
-Some settings are used to define how addok will deal with the system it's
-installed on.
+Quelques paramètres sont utilisés pour définir comment addok va gérer
+ le système sur lequel il est installé.
 
 #### REDIS (dict)
-Defines the Redis database settings:
+Définissez les paramètres de la base de données Redis:
 
     REDIS = {
         'host': 'localhost',
@@ -34,10 +37,10 @@ Defines the Redis database settings:
         'db': 0
     }
 
-By default, when using the `RedisStore` for documents, indexes and documents
-will be stored in two different Redis databases.
-You can control those details by using `indexes` and/or `documents`
-subdictionnaries, for example:
+Par défaut, en utilisant `RedisStore` pour les documents, les index et les
+ documents seront stockés dans deux bases de données Redis.
+Vous pouvez contrôler ces détails en utilisant les sous-dictionnaires
+ `indexes` et/ou `documents`, par exemple:
 
     REDIS = {
         'host': 'myhost',
@@ -50,7 +53,7 @@ subdictionnaries, for example:
         }
     }
 
-If your hosts are different, you can define them like this:
+Si vos hôtes sont différents, vous pouvez les définir comme ceci:
 
     REDIS = {
         'port': 6379,
@@ -64,48 +67,51 @@ If your hosts are different, you can define them like this:
         }
     }
 
-And of course, same for the port.
+et bien sûr, il en est de même pour le port.
 
 
-#### LOG_DIR (path)
-Path to the directory Addok will write its log and history files. Can also
-be overriden from the environment variable `ADDOK_LOG_DIR`.
+#### LOG_DIR (chemin)
+Chemin vers le répertoire vers lequel Addok écrira ses logs et ses fichiers
+ d'historique. Il peut aussi être surchargé depuis la variable
+ d'environnement `ADDOK_LOG_DIR`.
 
     LOG_DIR = 'path/to/dir'
 
-This setting defaults to the root folder of the addok package.
+Ce paramètre prend comme valeur par défaut le répertoire racine du package
+ addok.
 
+## Configurations basiques
 
-## Basic settings
+Un ensemble de paramètres que vous souhaitez peut être changer pour
+ correspondre à votre instance personnalisée.
 
-A bunch of settings you may want to change to fit your custom instance.
+Attention: vous verrez de nombreux paramètres suffixés avec PYPATH(S), ceux-ci
+ attendent des chemins vers des callable Python. Dans le cas d'une liste,
+l'ordre compte étant donné qu'il s'agit d'une chaîne de traitements.
 
-Warning: you will see a lot of settings suffixed with PYPATH(S), those
-are expecting path(s) to Python callable. In case of a list, the order
-matters given that it is a chain of processors.
+#### ATTRIBUTION (string ou dict)
+L'attribution de la donnée qui sera utilisée dans les résultats de l'API.
+Peut être une chaîne simple ou un dictionnaire Python.
 
-#### ATTRIBUTION (string or dict)
-The attribution of the data that will be used in the API results. Can be a
-simple string, or a dict.
-
-    ATTRIBUTION = 'OpenStreetMap Contributors'
-    # Or
+    ATTRIBUTION = 'Les contributeurs OpenStreetMap'
+    # Ou
     ATTRIBUTION = {source: attribution, source2: attribution2}
 
 #### BATCH_CHUNK_SIZE (int)
-Number of documents to be processed together by each worker during import.
+Nombre de documents devant être traité en même temps par chaque worker pendant
+ l'import.
 
     BATCH_CHUNK_SIZE = 1000
 
 
-#### BATCH_FILE_LOADER_PYPATH (Python path)
-Python path to a callable which will be responsible of loading file on
-import and return an iterable.
+#### BATCH_FILE_LOADER_PYPATH (chemin Python)
+Chemin Python vers un callable qui sera responsable du chargement du fichier
+ d'import et retournera un itérable.
 
     BATCH_FILE_LOADER_PYPATH = 'addok.helpers.load_file'
 
-#### BATCH_PROCESSORS_PYPATHS (iterable of Python paths)
-All methods called during the batch process.
+#### BATCH_PROCESSORS_PYPATHS (itérable de chemins Python)
+Toutes les méthodes appelées pendant le processus de batch.
 
     BATCH_PROCESSORS_PYPATHS = [
         'addok.batch.to_json',
@@ -114,27 +120,26 @@ All methods called during the batch process.
         'addok.helpers.index.index_documents',
     ]
 
-#### DOCUMENT_STORE_PYPATH (Python path)
-Python path to a store class for saving documents using another database
-engine and save memory.
-Check out the dedicated documentation on the [plugins](plugins.md) page.
+#### DOCUMENT_STORE_PYPATH (chemin Python)
+Chemin Python vers une classe de stockage pour sauver les documents utilisant
+ un autre moteur et sauver de la mémoire.
+Allez voir la documentation dédiée dans la page sur les [plugins](plugins.md).
 
-#### EXTRA_FIELDS (list of dicts)
-Sometimes you just want to extend [default fields](#fields-list-of-dicts).
+#### EXTRA_FIELDS (liste de dicts)
+Parfois vous voulez simplement étendre les [champs par défaut](#fields-liste-de-dicts).
 
     EXTRA_FIELDS = [
         {'key': 'myfield'},
     ]
 
-#### FIELDS (list of dicts)
-The document fields *you want to index*. It's a list of dict, each one defining
-an indexed field. Available keys:
+#### FIELDS (liste de dicts)
+Les champs du document que *vous voulez indexer*. C'est une liste de
+ dictionnaires, chacune définissant un champ indexé. Clés disponibles:
 
-- **key** (*mandatory*): the key of the field in the document
-- **boost**: optional boost of the field, define how important is the field
-  in the index, for example one usually define a greater boost for *name* field
-  than for *city* field (default: 1)
-- **null**: define if the field can be null (default: True)
+- **key** (*obligatoire*): la clé du champ dans le document
+- **boost**: boost optionnel du champ, définit quelle est l'importance du champ
+   dans l'index. Par exemple, un définit habituellement un boost plus important pour le champ *name* que pour le champ *city* (par défault: 1)
+- **null**: définit si le champ peut être null (par défaut: True)
 
 ```
 FIELDS = [
@@ -147,42 +152,45 @@ FIELDS = [
 ]
 ```
 
-#### FILTERS (list)
-A list of fields to be indexed as available filters. Keep in mind that every
-filter means bigger index.
+#### FILTERS (liste)
+Une liste de champs qui doivent être indexés comme des filtres disponibles.
+Souvenez-vous que chaque filtre signifie un index plus gros.
 
     FILTERS = ["type", "postcode"]
 
-#### HOUSENUMBERS_PAYLOAD_FIELDS (list of keys)
-If you want to store extra fields with each payload. Those fields will not
-be searchable, but will be returned in the search result.
+#### HOUSENUMBERS_PAYLOAD_FIELDS (liste de clés)
+Si vous souhaitez stocker des champs supplémentaires avec chaque 'payload'.
+Ces champs ne seront pas recherchables, mais seront retournés dans le résultat
+ de la recherche.
 
     HOUSENUMBERS_PAYLOAD_FIELDS = ['key1', 'key2']
 
-#### LICENCE (string or dict)
-The licence of the data returned by the API. Can be a simple string, or a dict.
+#### LICENCE (string ou dict)
+La licence de la donnée retournée dans les résultats de l'API.
+Elle peut être une chaîne simple ou un dictionnaire Python.
 
     LICENCE = "ODbL"
-    # Or
+    # Ou
     LICENCE = {source: licence, source2: licence2}
 
-#### LOG_QUERIES (boolean)
-Turn this to `True` to log every query received and firt result if any. *Note:
-only the queries are logged, not any of the other received data.*
+#### LOG_QUERIES (booléen)
+Mettez-le à `True` pour avoir les logs de chaque requête reçue et chaque
+ premier résultat si présent. *Note: seules les requêtes sont logguées, aucune
+ des autres données reçues.*
 
     LOG_QUERIES = False
 
-#### LOG_NOT_FOUND (boolean)
-Turn this to `True` to log every not found query both through the `search`
-endpoint or the `csv` one.
+#### LOG_NOT_FOUND (booléen)
+Mettez-le à `True` pour avoir les logs de chaque requête non trouvée via le
+ point d'entrée `search` ou celui `csv`.
 
     LOG_NOT_FOUND = False
 
-#### PROCESSORS_PYPATHS (iterable of Python paths)
-Define the various functions to preprocess the text, before indexing and
-searching. It's an `iterable` of Python paths. Some functions are built in
-(mainly for French at this time, but you can point to any Python function that
-is on the pythonpath).
+#### PROCESSORS_PYPATHS (itérable de chemins Python)
+Définit les différentes fonctions pour prétraiter le texte, avant l'indexation
+ et la recherche. C'est un `itérable` de chemins Python. Quelques fonctions
+ sont incluses (principalement pour le français pour le moment, mais vous
+ pouvez pointer vers n'importe quelle fonction qui est dans le pythonpath).
 
     PROCESSORS_PYPATHS = [
         'addok.textutils.default.pipeline.tokenize',
@@ -191,8 +199,8 @@ is on the pythonpath).
         'addok.textutils.fr.phonemicize',
     ]
 
-#### QUERY_PROCESSORS_PYPATHS (iterable of Python paths)
-Additional processors that are run only at query time.
+#### QUERY_PROCESSORS_PYPATHS (itérable de chemins Python)
+Traitements additionnels qui sont exécutés seulement au moment de la requête.
 
     QUERY_PROCESSORS_PYPATHS = (
         'addok.textutils.fr_FR.extract_address',
@@ -200,85 +208,87 @@ Additional processors that are run only at query time.
         'addok.textutils.fr_FR.glue_ordinal',
     )
 
-#### SYNONYMS_PATH (path)
-Path to the synonym file. Synonyms file are in the format `av, ave => avenue`.
+#### SYNONYMS_PATH (chemin)
+Chemin vers le fichier de synonymes. Le fichier de synonymes est dans le
+ format `av, ave => avenue`.
 
     SYNONYMS_PATH = '/path/to/synonyms.txt'
 
-## Advanced settings
+## Configurations avancées
 
-Those are internal settings. Change them with caution.
+Il s'agit des configurations internes. Changez-les avec précaution.
 
 #### BUCKET_MIN (int)
-The min number of items addok will try to fetch from Redis before scoring and
-sorting them. Note that **this is not the number of returned results**.
-This may impact performances a lot.
+Le nombre minimal d'élements qu'addok essayera de récupérer depuis Redis avant
+ le scoring et de les trier. Notez que **cela n'est pas le nombre de résultats
+ retournés**. Cela peut impacter fortement les performances.
 
     BUCKET_MIN = 10
 
 #### BUCKET_MAX (int)
-The max number of items addok will try to fetch from Redis before scoring and
-sorting them. Note that **this is not the number of returned results**.
-This may impact performances a lot.
+Le nombre maximal d'élements qu'addok essayera de récupérer depuis Redis avant
+ le scoring et de les trier. Notez que **cela n'est pas le nombre de résultats
+ retournés**. Cela peut impacter fortement les performances.
 
     BUCKET_MAX = 100
 
 #### COMMON_THRESHOLD (int)
-Above this treshold, terms are considered commons, and thus with less importance
-in the search algorithm.
+Au-dessus de ce seuil, les termes sont considérés comme habituels, et ainsi
+ avec moins d'importance dans l'algorithme de recherche.
 
     COMMON_THRESHOLD = 10000
 
 #### DEFAULT_BOOST (float)
-Default score for the relation token to document.
+Score par défaut pour le token de relation avec le document.
 
     DEFAULT_BOOST = 1.0
 
-#### DOCUMENT_SERIALIZER_PYPATH (Python path)
-Path to the serializer to be used for storing documents. Must have `loads` and
-`dumps` methods.
+#### DOCUMENT_SERIALIZER_PYPATH (chemin Python)
+Chemin vers le sérialiseur à utiliser pour stocker les documents. Il doit
+ avoir les méthodes `loads` et `dumps`.
 
     DOCUMENT_SERIALIZER_PYPATH = 'addok.helpers.serializers.ZlibSerializer'
 
-For a faster option (but using more RAM), use `marshal` instead.
+Pour une option plus rapide (mais utilisant plus de de RAM), utilisez `marshal`
+ à la place.
 
     DOCUMENT_SERIALIZER_PYPATH = 'marshal'
 
 
 #### GEOHASH_PRECISION (int)
-Size of the geohash. The bigger the setting, the smaller the hash.
-See [Geohash on Wikipedia](http://en.wikipedia.org/wiki/Geohash).
+Taille du geohash. Plus la valeur est importante et plus le hash est petit.
+Voir [Geohash sur Wikipedia (en)](http://en.wikipedia.org/wiki/Geohash).
 
     GEOHASH_PRECISION = 8
 
 #### IMPORTANCE_WEIGHT (float)
-The max inherent score of a document in the final score.
+Le score max inhérent d'un document dans le score final.
 
     IMPORTANCE_WEIGHT = 0.1
 
 #### INTERSECT_LIMIT (int)
-Above this treshold, we avoid intersecting sets.
+Au dessus de ce seuil, nous évitons d'intersecter des 'sets'.
 
     INTERSECT_LIMIT = 100000
 
 #### MAX_EDGE_NGRAMS (int)
-Maximum length of computed edge ngrams.
+Longueur maximum d'un segment n-grammes calculé.
 
     MAX_EDGE_NGRAMS = 20
 
 #### MIN_EDGE_NGRAMS (int)
-Minimum length of computed edge ngrams.
+Longueur minimum d'un segment n-grammes calculé.
 
     MIN_EDGE_NGRAMS = 3
 
 #### MAKE_LABELS (func)
-Function to override labels built for string comparison with query
-at scoring time. Takes a `result` object as argument and must return a
-list of strings.
+Fonction qui surcharge les étiquettes construites pour la comparaison de
+ chaînes avec la requête au moment du scoring. Elle accepte un objet
+ `result` comme argument et doit retourner une liste de chaînes de caractère.
 
     MAKE_LABELS = lambda r: return [r.name + 'my custom thing']
 
-#### MATCH_THRESHOLD (float between 0 and 1)
-Min score used to consider a result may *match* the query.
+#### MATCH_THRESHOLD (float entre 0 et 1)
+Score minimum utilisé pour considérer qu'un résultat puisse *correspondre* à la requête.
 
     MATCH_THRESHOLD = 0.9

@@ -1,26 +1,25 @@
-# Welcome to Addok documentation
+# Bienvenue à la documentation de Addok
 
-*Search engine for address. Only address.*
+*Un moteur de recherche pour les adresses. Rien que les adresses.*
 
-## Overview
+## Aperçu
 
-Addok works with Redis as backend.
+Addok fonctionne avec Redis en back-end.
 
-- it imports and indexes your data (can also import from Nominatim database) from command line
-- it serves a minimal GeoJSON based API (with Falcon)
-- it does reverse geocoding
-- it does batch geocoding (through CSV)
-- it has a debug shell for inspecting the index
-- it's configurable in many details
-- it's extendable by plugins
-- it's open source
+- il importe et indexe vos données (et peut aussi être importé depuis une base de données Nominatim) en ligne de commande
+- il sert une API minimale basée sur du GeoJSON (avec Falcon)
+- il fait du géocodage inversé ("reverse geocoding")
+- il fait du géocodage par batch (via du CSV pour le moment)
+- il fournit une ligne de commande de debug pour inspecter l'index
+- il est extensible par des plugins
+- il est open source
 
-Start by [installing it](install.md) and understand underlying [concepts](concepts.md).
+Commencez par [l'installer](install.md) et comprendre les [concepts](concepts.md) sous-jacents.
 
-## Show me the code
+## Montrez-nous le code
 
-The code is published via [Github](https://github.com/addok/addok/).
+Le code est publié via [Github](https://github.com/etalab/addok/).
 
 ## Licence
 
-Addok is released under the WTFPL Licence.
+Addok est mis à disposition sous licence WTFPL.

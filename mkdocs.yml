@@ -3,12 +3,12 @@ pages:
 - index.md
 - Installation: install.md
 - Configuration: config.md
-- Tuning Redis: redis.md
+- Tuning de Redis: redis.md
 - Plugins: plugins.md
 - Import: import.md
 - HTTP API: api.md
 - Shell: shell.md
-- Tutorial: tutorial.md
+- Tutoriel: tutorial.md
 - Concepts: concepts.md
 - FAQ: faq.md
 - Changelog: changelog.md
