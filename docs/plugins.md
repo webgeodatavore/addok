@@ -1,45 +1,50 @@
 # Plugins
 
-## Installing a plugin
+## Installation d'un plugin
 
-Each plugin may have its own installation process, but usually it takes two steps:
+Chaque plugin est susceptible d'avoir son propre processus d'installation,
+ mais habituellement, il faut deux étapes:
 
-- install a python package, for example: `pip install addok-france`
-- adapt the local configuration to the plugin needs
+- installer un package Python, par exemple: `pip install addok-france`
+- adapter la configuration locale aux besoins du plugin
 
-Have a look at the given plugin home page to have more details.
+Regardez la page d'accueil d'un plugin donné pour plus de détails.
 
 
-## Known plugins
+## Plugins connus
 
-- [addok-france](https://github.com/addok/addok-france): add specificities of France addresses to
-  addok (for example address parsing, address labelling for score computing, etc.)
-- [addok-fr](https://github.com/addok/addok-fr): French dedicated plugin, for example for phonemisation
-  (better typo tolerance).
-- [addok-csv](https://github.com/addok/addok-csv): add a CSV endpoint to your Addok server (for batch
-  geocoding of CSV files)
-- [addok-psql](https://github.com/addok/addok-psql): import from PosgreSQL database into Addok.
-- [addok-trigrams](https://github.com/addok/addok-trigrams): alternative index algorithm based on trigrams.
-- [addok-sqlite-store](https://github.com/addok/addok-sqlite-store): store documents into SQLite.
+- [addok-france](https://github.com/addok/addok-france): ajout des spécificités
+   des adresses France à addok (par exemple, le parsing des addresses, l'étiquetage des adresses pour le calcul du scoring, etc.)
+- [addok-fr](https://github.com/addok/addok-fr): plugin dédié au support du
+   Français, par exemple pour la phonémisation (meilleur tolérance de frappe).
+- [addok-csv](https://github.com/addok/addok-csv): ajout d'un point d'entrée
+   CSV pour votre serveur Addok (pour le géocodage par batch de fichiers CSV)
+- [addok-psql](https://github.com/addok/addok-psql): import depuis une base de
+   données PosgreSQL dans Addok.
+- [addok-trigrams](https://github.com/addok/addok-trigrams): algorithme d'indexation alternatif basé sur les trigrammes.
+- [addok-sqlite-store](https://github.com/addok/addok-sqlite-store): stockage des doucments dans SQLite.
 
-## Writing a plugin
+## Écrire un plugin
 
-As usual, best way to learn is to look at the code: look at the other plugins for inspiration.
+Comme d'habitude, la meilleure manière d'apprendre est regarder dans le code:
+ jetez un oeil aux autres plugins pour une inspiration.
 
-### Anatomy of a plugin
+### Anatomie d'un plugin
 
-An Addok plugin is simply a python module:
+Un plugin Addok est simplement un module Python:
 
-- it must be installed in the PYTHONPATH for addok to be able to import it
-- it should have the `addok.ext` entry point in case it needs to use the API
-  end points
+- il doit être installé dans le PYTHONPATH pour qu'addok soit capable de
+   l'importer
+- il doit avoir le point d'entrée `addok.ext` dans le cas où il nécessite
+   d'utiliser les endpoints de l'API
 
-### addok.ext entry point
+### point d'entrée addok.ext
 
-Note: this is only needed if you want your plugin to be connected with the API endpoints. If the plugin
-only deal with configuration (for example adding a PROCESSOR), there is no needed for that.
+Note: Il est seulement nécessaire si vous voulez votre plugin connecté aux
+ endpoints de l'API. Si le plugin doit seulement gérer de la configuration
+ (par exemple ajouter un PROCESSOR), ce n'est pas nécessaire pour cela.
 
-Add this to your `setup.py`:
+Ajouter ceci à votre `setup.py`:
 
 ```python
 setup(
@@ -49,7 +54,7 @@ setup(
 )
 ```
 
-Say for example that the plugin structure is:
+Disons par exemple que la structure du plugin est:
 
 ```
 mysuperplugin/
@@ -61,75 +66,71 @@ mysuperplugin/
         hooks.py
 ```
 
-If you put the hooks in `hooks.py`, then your entrypoint should be:
+Si vous devez mettre les "hooks" dans `hooks.py`, alors votre point d'entrée devrait être:
 
 ```python
     entry_points={'addok.ext': ['mysuperplugin=mysuperplugin.hooks']},
 ```
 
-### Plugins API
+### API des plugins
 
-If you have added an entry point to your plugin, addok will look for some hooks
-and call them if you have defined them.
+Si vous avez ajouté un point d'entrée à votre plugin, addok cherchera certains "hooks" et il les appelera si vous les avez défini.
 
-Important: those hooks must be in the module defined in the entrypoint.
+Important: ces "hooks" doivent être dans le module défini dans le point d'entrée.
 
 
 #### preconfigure(config)
 
-Allow to path config object before user local config (for example to set defaults
-overridable then by the plugin user in their local config).
+Permet de configurer le chemin de configuration de l'objet avant la configuration de l'utilisateur local (par exemple pour définir les valeurs par défaut surchargeables alors par l'utilisateur du plugin dans sa configuration locale).
 
 
 #### configure(config)
 
-Allow to path config object after user local config.
+Permet de configurer le chemin de configuration de l'objet après la configuration de l'utilisateur local.
 
 
 #### register_api_endpoint(api)
 
-Add new endpoints to the HTTP API.
+Ajoute de nouveaux points d'entrée à l'API HTTP.
 
 
 #### register_api_middleware(middlewares)
 
-Add new middlewares to the HTTP API.
+Ajoute de nouveaux "middlewares" à l'API HTTP.
 
 
 #### register_command(subparsers):
 
-Register command for Addok CLI.
+Déclare une commande pour la ligne de commande (CLI) Addok.
 
 
 #### register_shell_command(cmd):
 
-Register command for Addok shell.
+Déclare une commande pour le shell Addok.
 
 
-## Writing a store plugin
+## Écrire un plugin de stockage
 
-Document stores are particular plugins given they must follow a strict API.
-Again, check out existing stores (especially
-[SQLite](https://github.com/addok/addok-sqlite-store)) for inspiration.
+Les plugins de stockage de documents sont des plugins particuliers étant donné qu'ils doivent suivre une API stricte.
+A nouveau, allez-voir les plugins de stockages existants (particulièrement [SQLite](https://github.com/addok/addok-sqlite-store)) pour votre inspiration.
 
-It has to be a class with 4 methods:
+Il doit être une classe avec 4 méthodes:
 
 ### fetch(self, *keys)
 
-Must yield a key and the associated document for each passed keys.
+Il doit faire un "yield" sur un clé et le document associé pour chacune des clés passées.
 
 ### upsert(self, *docs)
 
-Must up(date or ins)ert documents passed as parameters.
+Doit mettre à jour ou insérer (via un update, un upsert ou un insert) les documents passés comme paramètres.
 
 ### remove(self, *keys)
 
-Must remove documents related to passed keys.
+Doit enlever les documents lis aux clés passées.
 
 #### flushdb(self)
 
-Must remove all documents from the database.
-Only in use by the `reset` command.
+Doit enlever tous les documents de la base de données.
+Seulement utilisé par la commande `reset`.
 
-Once your store plugin is compliant, do not forget to update the
-[DOCUMENT_STORE_PYPATH](config.md) setting to test it.
+Une fois, que votre plugin de stockage est conforme, n'oubliez pas de mettre à jour le paramètre [DOCUMENT_STORE_PYPATH](config.md) pour tester le plugin.
