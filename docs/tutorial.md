@@ -1,32 +1,32 @@
-# Tutorial
+# Tutoriel
 
-This tutorial will cover an installation from scratch of a France dedicated
-Addok instance in an Ubuntu server.
+Ce tutoriel couvrira une installation à partir de zéro d'une instance Addok dédiée à la France sur un serveur Ubuntu.
 
-You need sudo grants on this server, and it must be connected to Internet.
+Vous aurez besoin des droits sudo sur ce serveur, et il doit être connecté à Internet.
 
-## Install system dependencies
+## Installer les dépendances système
 
     sudo apt install redis-server python3.5 python3.5-dev python-virtualenv build-essential git wget nginx uwsgi uwsgi-plugin-python3 bzip2
 
 
-## Create a Unix user
+## Créer un utilisateur Unix
 
-Here we use the name `addok`, but this name is up to you. Remember to change it
-on the various commands and configuration files if you go with your own.
+Ici, nous utilisons le nom `addok`, mais ce choix reste à votre convenance.
+ Rappelez-vous de le changer au niveau des différentes commandes et fichiers
+ de configuration si vous choisissez le votre.
 
     useradd -N addok -m -d /srv/addok/
 
-## Create config folder
+## Créer un répertoire de configuration
 
     mkdir /etc/addok/
     chown addok /etc/addok
 
-## Login as this new user
+## Se connecter comme ce nouvel utilisateur
 
     sudo -u addok -i
 
-From now on, until we say differently, the commands are run as `addok` user.
+A partir de maintenant, à moins que nous ne disions différemment, les commandes sont exécutées en tant qu'utilisateur `addok`.
 
 
 ## Create a virtualenv and activate it
