@@ -29,24 +29,26 @@ Ici, nous utilisons le nom `addok`, mais ce choix reste à votre convenance.
 A partir de maintenant, à moins que nous ne disions différemment, les commandes sont exécutées en tant qu'utilisateur `addok`.
 
 
-## Create a virtualenv and activate it
+## Créer un environnement virtuel (`virtualenv`) et l'activer
 
     virtualenv venv --python=/usr/bin/python3.5
     source venv/bin/activate
 
-Note: this activation is not persistent, so if you open a new terminal window,
-you will need to run again this last line.
+Note: cette activation n'est pas persistante, ainsi si vous ouvrez une
+ nouvelle fenêtre de terminal, vous devrez exécutez à nouveau la
+ dernière ligne.
 
-## Install addok and plugins
+## Installer Addok et les plugins
 
     pip install addok
     pip install addok-fr
     pip install addok-france
 
-Note: if you want batch CSV support on the HTTP API, also install the plugin
-`addok-csv`.
+Note: si vous voulez le support du CSV par batch sur l'API HTTP, installez
+ aussi le plugin `addok-csv`.
 
-Check that thet installation is successful so far by running this command:
+Vérifiez que l'installation a réussi jusqu'à maintenant en exécutant cette
+ commande:
 
     addok --help
 
