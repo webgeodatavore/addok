@@ -52,17 +52,15 @@ Vérifiez que l'installation a réussi jusqu'à maintenant en exécutant cette
 
     addok --help
 
-If you see no error but the list of addok commands, congratulations, you can proceed!
+Si vous ne voyez pas d'erreur mais la liste des commandes addok, félicitations, vous pouvez continuer!
 
-If not, keep courage, try to read the error message, go back through previous steps and
-check that everything has been done successfuly. And if you are lost, [create an issue the addok
-tracker](https://github.com/addok/addok/issues) to ask for help.
+Si non, gardez courage, essayez de lire le message d'erreur, retournez aux étapes précédentes et vérifiez que tout a été fait avec succès. Et si vous êtes perdu, [créez une "issue" sur le "tracker" addok](https://github.com/addok/addok/issues) pour demander de l'aide.
 
-## Create a local configuration file
+## Créer un fichier de configuration local
 
     nano /etc/addok/addok.conf
 
-And paste this configuration:
+Et collez cette configuration:
 ```
 QUERY_PROCESSORS_PYPATHS = [
     "addok_france.extract_address",
@@ -90,25 +88,25 @@ PROCESSORS_PYPATHS = [
 ]
 ```
 
-Save (ctrl+O) and close (Ctrl+X) the file.
+Sauvez (ctrl+O) et fermez (Ctrl+X) le fichier.
 
 
-## Download ODbL BAN data and uncompress it:
+## Télécharger la donnée BAN sous licence ODbL et la décompresser:
 
-This is for Seine-Saint-Denis, but choose the area you want from the
-[download page](http://bano.openstreetmap.fr/BAN_odbl/):
+C'est pour la Seine-Saint-Denis, mais choisissez la zone que vous voulez
+ depuis la [page de téléchargement](http://bano.openstreetmap.fr/BAN_odbl/):
 
     wget http://bano.openstreetmap.fr/BAN_odbl/BAN_odbl_93-json.bz2
     bunzip2 BAN_odbl_93-json.bz2
 
-## Import the data
+## Importer la donnée
 
-Run those two commands:
+Exécutez ces deux commandes:
 
     addok batch BAN_odbl_93-json
     addok ngrams
 
-Let's test that everything is ok. Run the addok shell:
+Essayons de tester que tout va bien. Exécutez le shell addok:
 
     addok shell
 
@@ -123,23 +121,24 @@ When you want to proceed with the tutorial, type `QUIT` in the Addok shell
 to close it.
 
 
-## Configure the HTTP API
+## Configurer l'API HTTP
 
-If you would want to just test the Addok API, you can simply run this command:
+Si vous voulez juste tester l'API Addok, vous pouvez simplement exécuter cette
+ commande:
 
     addok serve
 
-And you can now access it through `http://127.0.0.1:7878/`.
-For example, to issue a search, you would call this URL:
+Et vous pouvez maintenant accéder à l'API via `http://127.0.0.1:7878/`.
+Par exemple, pour lancer une recherche, vous devriez appeler cette URL:
 [http://127.0.0.1:7878/search/?q=epinay sur seine](http://127.0.0.1:7878/search/?q=epinay sur seine
 )
 
-But now let's configure a real HTTP server.
+Mais maintenant, configurons un serveur HTTP réel.
 
 ### uWSGI
 
-Create a file named `/srv/addok/uwsgi_params`, with this content
-(without making any change on it):
+Créez un fichier nommé `/srv/addok/uwsgi_params`, avec ce contenu
+ (sans faire aucun changement dessus):
 
 ```
 uwsgi_param  QUERY_STRING       $query_string;
@@ -160,13 +159,13 @@ uwsgi_param  SERVER_PORT        $server_port;
 uwsgi_param  SERVER_NAME        $server_name;
 ```
 
-Then create a configuration file for uWSGI:
+Ensuite, créez un fichier de configuration pour uWSGI:
 
     nano /srv/addok/uwsgi.ini
 
-And paste this content. Double check paths and user name in case you
-have customized some of them during this tutorial. If you followed all the bits of the
-tutorial without making any change, you can use it as is:
+Et collez ce contenu. Vérifiez deux fois les chemins et le nom d'utilisateur
+ dans le cas où vous auriez personnalisé certains d'entre eux au cours du
+ tutoriel. Si vous avez suivi toutes les parties du tutoriel sans faire aucun changement, vous pouvez l'utiliser tel quel:
 
 ```
 [uwsgi]
@@ -198,11 +197,11 @@ plugins         = python3
 
 ### Nginx
 
-Create a new file:
+Créez un nouveau fichier:
 
     nano /srv/addok/nginx.conf
 
-with this content:
+avec ce contenu:
 
 ```
 # the upstream component nginx needs to connect to
@@ -232,39 +231,40 @@ server {
 }
 ```
 
-Remember to adapt the domain name.
+Rappelez-vous d'adapter le nom de domaine.
 
-### Activate and restart the services
+### Activer et redémarrer les services
 
-Now quit the `addok` session, simply type ctrl+D.
+Maintenant quittez la session `addok`, tapez simplement ctrl+D.
 
-You should be logged in as your normal user, which is sudoer.
+Vous devriez vous connecter en tant qu'utilisateur normal, qui est un sudoer
+ (membre du groupe sudo qui permet d'exécuter `sudo`).
 
-- Activate the Nginx configuration file:
+- Activez le fichier de configuration Nginx:
 
         sudo ln -s /srv/addok/nginx.conf /etc/nginx/sites-enabled/addok
 
-- Activate the uWSGI configuration file:
+- Activez le fichier de configuration uWSGI:
 
         sudo ln -s /srv/addok/uwsgi.ini /etc/uwsgi/apps-enabled/addok.ini
 
-- Restart both services:
+- Redémarrez les deux services:
 
         sudo systemctl restart uwsgi nginx
 
 
-Now you should be able to issue the search with an URL like:
+Maintenant, vous devriez être capable de lancer la recherche avec une URL comme:
 
     http://yourdomain.org/search/?epinay sur seine
 
 
-Congratulations!
+Félicitations!
 
 - - -
 
-## Troubleshooting
+## Résolution des problèmes
 
-- Nginx logs are in /var/log/nginx/:
+- les logs Nginx sont dans /var/log/nginx/:
 
         sudo tail -f /var/log/nginx/error.log
 
@@ -272,21 +272,22 @@ Congratulations!
 
         sudo tail -f /var/log/nginx/access.log
 
-- uWSGI logs are in /var/log/uwsgi:
+- les logs uWSGI sont dans /var/log/uwsgi:
 
         sudo tail -f /var/log/nginx/addok.log
 
-- To make sure the environment variable is set in the current shell
-  if you changed its location:
+- Pour vous assurer que la variable d'environnement est définie dans le shell
+   actuel si vous avez changé son emplacement:
 
         echo $ADDOK_CONFIG_MODULE
 
-- Run `addok shell` and look at the output: addok should print the local
-  configuration file his loading (or trying to load…), the loaded plugins, etc.
+- Exécutez `addok shell` et regardez la sortie: addok devrait retourner le fichier de configuration local, son chargement (ou sa tentative de chargement…), les plugins chargés, etc.
 
-- To check the configuration of addok it self, run `addok shell` and type `CONFIG`.
-  You'll be able to check all the configuration keys and be sure they have the
-  expected values.
+- Pour vérifiez la configuration de addok lui même, exécutez `addok shell` et
+   tapez `CONFIG`.
+  Vous serez capable de vérifier toutes les clés de configuration et vous
+   assurer qu'elles ont les valeurs attendues.
 
-- If your searchs are returning nothing at all or very weird results, it may be that you have
-  indexed with a different configuration than the one you are using when searching.
+- Si vos recherches ne retournent rien ou des résultats vraiment très bizarres,
+ il est possible que vous ayez indexé avec une configuration différente de
+ celle que vous utilisez lorsque vous faites une recherche.
