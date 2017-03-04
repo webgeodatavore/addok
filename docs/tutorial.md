@@ -110,15 +110,16 @@ Essayons de tester que tout va bien. Exécutez le shell addok:
 
     addok shell
 
-Now, in the Addok shell, simply type the name of a place in the area
-you imported, and type "Enter". You should see a list of results.
-If you want to list the available commands in the shell, type "?" and
-hit "Enter" again.
+Maintenant, dans le shell Addok, tapez simplement le nom du lieu dans la zone
+ que vous avez importé, et tapez "Entrée". Vous devriez voir une liste de
+ résultats.
+Si vous voulez une liste des commandes disponibles dans le shell, tapez "?" et
+ appuyez sur "Entrée" à nouveau.
 
-Take the time to play with the shell to start testing Addok.
+Prenez le temps de jouer avec le shell pour commencer à tester Addok.
 
-When you want to proceed with the tutorial, type `QUIT` in the Addok shell
-to close it.
+Quand vous souhaitez continuer avec le tutoriel, tapez `QUIT` dans le shell
+ Addok pour le fermer.
 
 
 ## Configurer l'API HTTP
