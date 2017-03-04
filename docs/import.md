@@ -80,6 +80,6 @@ Ou:
 
     $ less ~/Data/geo/ban/communes-context.json | addok batch
 
-## Plus options
+## Plus d'options
 
 Exécutez `addok --help` pour voir les options disponibles.
