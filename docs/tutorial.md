@@ -269,7 +269,7 @@ Félicitations!
 
         sudo tail -f /var/log/nginx/error.log
 
-  or
+  ou
 
         sudo tail -f /var/log/nginx/access.log
 
