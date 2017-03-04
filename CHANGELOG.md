@@ -1,44 +1,48 @@
 ## 1.0.0-dev
 
-- remove `DOCUMENT_PROCESSORS_PYPATHS` in favor of `BATCH_PROCESSORS_PYPATHS`
-  (not in use before 1.0.0-rc.1)
-- add `BATCH_FILE_LOADER_PYPATH` to specify a custom file loader (e.g. msgpack)
+- suppression de `DOCUMENT_PROCESSORS_PYPATHS` en faveur de `BATCH_PROCESSORS_PYPATHS`
+  (pas en utilisation avant la 1.0.0-rc.1)
+- ajout de `BATCH_FILE_LOADER_PYPATH` pour spécifier un chargeur de fichiers personnalisé (c'est à dire msgpack)
 
 ## 1.0.0-rc.1
 
-The 1.0.0 has been a big rewrite, with main features:
+La 1.0.0 a été une grosse réécriture, avec comme fonctionnalités principales:
 
-- split in [plugins](http://addok.readthedocs.io/en/latest/plugins/)
-- allow for external storage of documents (in SQLite, PostgreSQL, etc.)
-- use LUA scripting for performances
-- less RAM consumption
-- replaced Flask by Falcon for performances
+- découpage en [plugins](http://addok.readthedocs.io/en/latest/plugins/)
+- possibilité de stockage externe de documents (dans SQLite, PostgreSQL, etc.)
+- utilisation du scripting de LUA pour les performances
+- moins de consommation de RAM
+- remplacement de Flask par Falcon pour les performances
 
-It contains many breaking changes. Best option when possible is to restart
-from scratch (see the [tutorial](http://addok.readthedocs.io/en/latest/tutorial/))
-and reindex everything.
+Elle contient de nombreux changements "cassants". La meilleure des options
+quand c'est possible est de redémarrer depuis le début (voir le
+[tutoriel](http://addok.readthedocs.io/en/latest/tutorial/)) et de réindexer
+tout.
 
-### Breaking changes
+### Changements "cassants"
 
-- `PROCESSORS`, `INDEXERS`, etc. have been renamed to `PROCESSORS_PYPATHS`,
+- `PROCESSORS`, `INDEXERS`, etc. ont été renommés en `PROCESSORS_PYPATHS`,
   `INDEXERS_PYPATHS`, etc.
-- `HOUSENUMBERS_PROCESSORS` have been removed
-- config must now be loaded by `from addok.config import config`
-- removed `DEINDEXERS`, now `INDEXERS` must point to python classes having both
-  `index` and `deindex` methods
-- endpoints API changed
-- by default, documents are now stored in a separate Redis database
+- `HOUSENUMBERS_PROCESSORS` a été supprimé
+- config doit maintenant être chargé avec `from addok.config import config`
+- suppression de `DEINDEXERS`, maintenant `INDEXERS` doit pointer vers des
+  classes Python ayant les deux méthodes `index` and `deindex`
+- changements des points d'entrée de l'API
+- par défaut, les documents sont maintenant stockés dans une base de données Redis séparée
 
-### Minor changes
+### Changements mineurs
 
-- index multi values in filters
-- add a "reset" command to reset all data (indexes and documents)
-- added `quote` parameter for CSV endpoints (now in addok-csv plugin)
-- addok now tries to read config from `/etc/addok/addok.conf` as fallback
-- `SMALL_BUCKET_LIMIT` is now a setting
+- indexation de multiples valeurs dans les filtres
+- ajout d'une commande "reset" pour réinitialiser toutes les données(index et
+  documents)
+- ajout du paramètre `quote` pour les points d'entrée CSV (maintenant dans
+  le plugin addok-csv)
+- addok essaye maintenant de lire la configuration depuis
+  `/etc/addok/addok.conf` comme solution de repli
+- `SMALL_BUCKET_LIMIT` est maintenant un paramètre
 
-Also check the new [FAQ](http://addok.readthedocs.io/en/latest/faq/) section
-in the documentation.
+Allez aussi voir la nouvelle section
+[FAQ](http://addok.readthedocs.io/en/latest/faq/) dans la documentation.
 
 
 ## 0.5.0
