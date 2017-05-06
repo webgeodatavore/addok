@@ -1,54 +1,60 @@
-# Configuring Redis
+# Configuration de Redis
 
-Configuring Redis can significantly improve Addok.
+Configurer Redis peut améliorer significativement Addok.
 
-Generic tips from the official doc [this topic](https://redis.io/topics/admin).
+Les conseils génériques de la documentation officielle: [ce topic](https://redis.io/topics/admin).
 
-See also the [configuration reference](https://redis.io/topics/config).
+Voir aussi la [référence de configuration](https://redis.io/topics/config).
 
-On Linux, the default configuration file path is `/etc/redis/redis.conf`.
+Sur Linux, le chemin de configuration du fichier par défault est `/etc/redis/redis.conf`.
 
-## Persistence
+## Persistance
 
-To be able to stop and start Redis without needing a new import, it's important
-to let Redis persist the data on disk.
-By default, Redis will persist data every x time or every x changes in the data.
-The best thing is to totally disable automatic persistence, and do it by hand
-when needed. In fact, only after import we need to persist the data. When
-Addok is running, there is not need to persist (addok will create some temporary
-keys from time to time, but they are volatile).
+Pour être capable d'arrêter et démarrer Redis sans avoir besoin d'un nouvel
+ import, il est important de laisser Redis persister les données sur le disque.
+Par défaut, Redis persistera chaque donnée toutes les x durées ou tous les  x
+ changements dans la donnée.
+La meilleure chose est de totalement désactiver la persistance automatique,
+ et de le faire à la main quand c'est nécessaire. En fait, nous avons besoin de
+ persister la donnée seulement après import. Quand Addok est en fonctionnement,
+ il n'y a pas besoin de persister (addok créera quelques clés temporaires de
+ temps à autre, mais elles sont volatiles).
 
-To deactivate auto save for the running instance, type:
+Pour désactiver la sauvegarde automatique pour l'instance en fonctionnement,
+ tapez:
 
 ```
 redis-cli config set save ""
 ```
 
-If you want to do it for good, comment the `save` lines in the redis conf.
+Si vous voulez la sauvegarder pour de bon, commentez les lignes `save` dans le
+ fichier de configuration redis.
 
-This is the perfect setting for running Addok. But remember that the configuration
-if for the Redis instance, so if you have other services than Addok using it,
-you may configure it your way.
+C'est la configuration parfaite pour exécuter Addok. Mais souvenez-vous que
+ la configuration est pour l'instance Redis. Ainsi si vous avez d'autres
+ services qu'Addok qui l'utilise, vous allez devoir le configurer à votre
+ manière.
 
 ## Import
 
-When importing data, you need to persist it, so a restart of Redis will reload it.
+Quand vous importez la donnée, vous allez avoir besoin de la persister, ainsi
+ un redémarrage de Redis la rechargera.
 
-You can either:
+Vous pouvez soit:
 
-- keep the normal redis `save` configuration, which will persist on the fly
-  while importing. This will make the import a bit slower, and consume a bit
-  more memory during the import.
-- issue a `redis-cli bgsave` after the import: this is the faster scenario,
-  because Redis will be ready to use just after the import, `bgsave` being
-  asynchronous. But this will use more or less the double memory when doing the
-  `bgsave`, because Redis will create a subprocess;
-- issue a `redis-cli save`, which is synchronous: this will block Redis for one
-  or two minutes (depending on the data you imported), but there is no extra
-  memory usage
+- garder la configuation `save` normale de redis, qui persistera à la volée
+   quand l'import s'effectue. Cela rendra l'import un peu plus lent, et
+   consommera un peu plus de mémoire pendant l'import.
+- lancer un `redis-cli bgsave` après l'import: c'est le scénario le plus
+   rapide, parce que Redis sera prêt à être utilisé juste après l'import,
+   `bgsave` étant asynchrone. Mais cela utilisera plus ou moins le double de
+    mémoire quand `bgsave` exécutera, parce que Redis créera un sous-processus;
+- lancer un `redis-cli save`, qui sera synchrone: cela bloquera Redis pour une
+   ou deux minutes (selon la donnée que vous importez), mais il n'y aura pas
+   d'usage mémoire supplémentaire
 
 
-## Security
+## Sécurité
 
-Before going live, make sure to have a look at
-[the security page](https://redis.io/topics/security).
+Avant de passer en live/production, assurez-vous d'avoir jeté un oeil à
+ [la page de sécurité](https://redis.io/topics/security).

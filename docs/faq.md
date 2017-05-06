@@ -1,44 +1,44 @@
-# Frequently Asked Questions (FAQ)
+# Foire aux questions (FAQ)
 
-## Can I search on multiple values for a given filter?
+## Est-ce que je peux effectuer une recherche sur plusieurs valeurs pour un filtre donné?
 
-For instance: /?type=street&type=housenumber
+Par exemple: /?type=street&type=housenumber
 
-Addok relies on Redis intersect which only join terms with "AND" and
-doesn't know about "OR".
+Addok s'appuye sur l'opération intersect de Redis qui joint seulement les
+termes avec "AND" et ne sait pas ce qu'est "OR".
 
-It would be too costly to make multiple passes for each OR term.
-
-
-## Is the position relevant within the input?
-
-For instance: "33 bd Bordeaux Troyes" vs. "bd de Troyes 33 Bordeaux"
-
-Quick answer: No. Not all countries use the same order for addresses.
-Even in one country we can have some subtilities as stated by
-the example above.
+Il serait trop coûteux de faire plusieurs passes pour chaque terme OR.
 
 
-## Why do I have inconsistent results with abbreviations?
+## Est-ce que la position  est pertinente dans la chaîne en entrée?
 
-For instance: I'm looking for "BD République" and "Rue République" comes before "Boulevard République" in results.
+Par exemple: "33 bd Bordeaux Troyes" vs. "bd de Troyes 33 Bordeaux"
 
-Addok only resolves abbreviations for searching but never for scoring.
-This is because when searching it tries to make its best to guess what the user
-is really looking for. At scoring time and by design, we only keep the
-original input to be sure that our guesses aren't too magical and far from
-the reality.
+Réponse rapide: Non. Tous les pays n'utilisent pas le même ordre pour les
+adresses. Même dans un pays, nous pouvons avoir certaines subtilités comme
+l'illustre l'exemple ci-dessus.
 
-## How is the score computed?
 
-Score is:
+## Pourquoi j'ai des résultats inconsistants avec les abbréviations?
 
-- string distance on a 0-1 range scale
-- document importance on a 0-0.1 range scale
-- optionally geographical distance on a 0-0.1 range scale
-  (if a center has been given)
+Par exemple: Je cherche en utilisant "BD République" et "Rue République"
+arrive avant "Boulevard République" dans les résultats.
 
-Then scaled back to a 0-1 range scale.
+Addok ne résout les abréviations que pour la recherche mais jamais pour le
+scoring. C'est parce que lors de la recherche, il essaie de faire de son mieux
+pour deviner ce que l'utilisateur recherche vraiment. Au moment du scoring et
+par conception, nous gardons seulement l'entrée originale pour être sûr que
+nos suppositions ne sont pas trop magiques et trop éloignées de la réalité.
 
-*Note: the score computation is considered an internal detail and may change
-anytime. It's only used for sorting.*
+## Comment le score est calculé?
+
+Le score est:
+
+- la distance entre chaîne sur une échelle de 0-1
+- l'importance du document sur une échelle de 0-0.1
+- optionnellement, une distance géographique sur une échelle de 0-0.1
+  (si un centre est donnée)
+
+Puis il est rapporté à nouveau sur une échelle de 0-1.
+
+*Note: le calcul du score est considéré comme un détail interne est est susceptible de changer à n'importe quel moment. Il est seulement utilisé pour le tri.*
