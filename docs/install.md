@@ -1,31 +1,31 @@
-# Installing Addok
+# Installation de Addok
 
-## Dependencies
+## Dépendances
 
 - Redis
 - python >= 3.4
 
-## Install using a virtualenv
+## Installation en utilisant un environnement virtuel ("virtualenv")
 
-1. Install dependencies:
+1. Installez les dépendances:
 
         sudo apt-get install redis-server python3.5 python3.5-dev python-pip python-virtualenv
 
-1. create a virtualenv:
+2. Créez un environnement virtuel:
 
         virtualenv addok --python=/usr/bin/python3.5
 
-1. active virtualenv:
+3. Activez virtualenv:
 
         source addok/bin/activate
 
-1. install python packages:
+4. Installez les paquets Python:
 
         pip install addok
 
-### Using Cython (optional)
+### Utilisez Cython (optionnel)
 
-For a performance boost, you can use Cython:
+Pour un boost des performances, vous pouvez utiliser Cython:
 
 ```bash
 pip install cython
@@ -33,13 +33,14 @@ pip install --no-binary :all: falcon
 pip install --no-binary :all: addok
 ```
 
-Note: this is not recommended for development.
+Note: cela n'est pas recommandé pour le développement.
 
-Note: `--no-binary` option is only available for recent `pip` versions,
-to make sure you're running the latest, run `pip install -U pip`.
+Note: L'option `--no-binary` est seulement disponible pour les versions
+ récentes de`pip`. Pour vous assurer que vous fonctionnez avec la dernière
+  version, lancez `pip install -U pip`.
 
-## What to do next?
-Now you certainly want to [configure Addok](config.md), install
-[plugins](plugins.md) or directly [import data](import.md).
+## Que faire ensuite?
+Maintenant, vous voulez certainement [configurer Addok](config.md), installer
+des [plugins](plugins.md) ou directement [importer des données](import.md).
 
-See also the full [installation tutorial](tutorial.md).
+Voir aussi le [tutoriel d'installation](tutorial.md) complet.

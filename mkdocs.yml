@@ -2,7 +2,7 @@ site_name: Addok
 pages:
 - index.md
 - Installation: install.md
-- Tutorial: tutorial.md
+- Tutoriel: tutorial.md
 - Configuration: config.md
 - Tuning Redis: redis.md
 - Plugins: plugins.md
@@ -11,9 +11,9 @@ pages:
 - Shell: shell.md
 - Fabric: fabric.md
 - Concepts: concepts.md
-- Examples: examples.md
+- Exemples: examples.md
 - FAQ: faq.md
 - Changelog: changelog.md
 theme: readthedocs
 repo_url: https://github.com/etalab/addok
-site_description: Search engine for address. Only address.
+site_description: Moteur de recherche pour les adresses. Seulement les adresses.

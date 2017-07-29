@@ -1,123 +1,123 @@
-# Addok shell
+# Commande shell Addok
 
-Addok comes with a builtin shell, that allows to inspect the
-internals of the index, tests queries and the string processing.
-Consider it as a debug tool.
+Addok est fourni avec un shell intégré, qui permet d'inspecter le
+ fonctionnement interne de l'index, de tester des requêtes et le traitement
+ de chaîne de caractères.
+Considérez-le comme un outil de debug.
 
-Enter in the shell with command:
+Entrez dans le shell avec la commande:
 
     addok shell
 
-Here are the available commands:
+Voici les commandes disponibles:
 
 #### AUTOCOMPLETE
-Shows autocomplete results for a given token.
+Montre les résultats de l'autocomplétion pour une chaîne donnée.
 
     AUTOCOMPLETE lil
 
 #### BESTSCORE
-Return document linked to word with higher score.
+Retourne un document lié à un mot avec le score le plus élevé.
 
     BESTSCORE lilas
 
 #### BUCKET
-Issue a search and return all the collected bucket, not only up to limit elements:
+Lance une recherche et retourne tous les résultats retournés, pas seulement ceux retournés par les éléments limités:
 
     BUCKET rue des Lilas
 
 #### DBINFO
-Print some useful infos from Redis DB.
+Imprime quelques infos utiles de la base de données Redis.
 
 #### DBKEY
-Print raw content of a DB key.
+Imprime le contenu brut de la clé de la base de données.
 
     DBKEY g|u09tyzfe
 
 #### DISTANCE
-Print the distance score between two strings. Use | as separator.
+Imprime le score de distance entre deux chaînes. Utilisez | comme séparateur.
 
     DISTANCE rue des lilas|porte des lilas
 
 #### EXPLAIN
-Issue a search with debug info:
+Lance une recherche avec les infos de debug:
 
     EXPLAIN rue des Lilas
 
 #### FREQUENCY
-Return word frequency in index.
+Retourne la fréquence d'un mot dans l'index.
 
     FREQUENCY lilas
 
 #### FUZZY
-Compute fuzzy extensions of word.
+Calcule les extensions floues d'un mot.
 
     FUZZY lilas
 
 #### FUZZYINDEX
-Compute fuzzy extensions of word that exist in index.
+Calcule les extensions floues d'un mot qui existe dans l'index.
 
     FUZZYINDEX lilas
 
 #### GEODISTANCE
-Compute geodistance from a result to a point.
+Calcule la géodistance d'un résultat à un point.
 
     GEODISTANCE 772210180J 48.1234 2.9876
 
 #### GEOHASH
-Compute a geohash from latitude and longitude.
+Calcule un geohash depuis la latitude et la longitude.
 
     GEOHASH 48.1234 2.9876
 
 #### GEOHASHMEMBERS
-Return members of a geohash and its neighbors. Use "NEIGHBORS 0"
-to only target geohash.
+Retourne les membres d'un geohash et ses voisins. Utilisez "NEIGHBORS 0"
+pour seulement cibler le geohash.
 
     GEOHASHMEMBERS u09vej04 [NEIGHBORS 0]
 
 #### GEOHASHTOGEOJSON
-Build GeoJSON corresponding to geohash given as parameter.
+Construit un GeoJSON correspondant au geohash donné comme paramètre.
 
     GEOHASHTOGEOJSON u09vej04
 
 #### GET
-Get document from index with its id.
+Obtenir le document depuis l'index avec son identifiant.
 
     GET 772210180J
 
 #### HELP
-Display the list of available commands.
+Afficher la liste des commandes disponibles.
 
 #### INDEX
-Get index details for a document by its id.
+Obtenir les détails de l'index pour un document par son identifiant.
 
     INDEX 772210180J
 
 #### INTERSECT
-Do a raw intersect between tokens (default limit 100).
+Faire une intersection brute entre tokens (limite par défaut à 100).
 
     INTERSECT rue des lilas [LIMIT 100]
 
 #### PAIR
-See all token associated with a given token.
+Voir toutes les tokens associés avec un token donné.
 
     PAIR lilas
 
 #### REVERSE
-Do a reverse search. Args: lat lon.
+Faire une recherche inverse. Arguments: lat lon.
 
     REVERSE 48.1234 2.9876
 
 #### SEARCH
-Issue a search (default command, can be omitted; arguments between `[]` are
-optionnal):
+Lance une recherche (commande par défaut, peut être omise; les arguments entre `[]` sont optionnels):
 
     SEARCH rue des Lilas [CENTER lat lon] [LIMIT 10] [AUTOCOMPLETE 0]
 
-Also, every registered filter is available, for example:
+Également, chaque filtre enregistré est disponible, par exemple:
 
     rue des lilas CITY hautmont
 
 #### TOKENIZE
-Inspect how a string is tokenized before being indexed.
+Inspecte comment une chaîne est tokenizée avant d'être indexée.
 
     TOKENIZE Rue des Lilas

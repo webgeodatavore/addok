@@ -1,12 +1,12 @@
-# Examples
+# Exemples
 
-A couple of examples with Python or JavaScript to be inspired by
-for your code. Feel free to add your own usage with a pull-request!
+Quelques exemples avec Python ou JavaScript pour être inspiré pour votre code.
+N'hésitez pas à ajouter votr propre exemple d'usage avec une pull-request!
 
 
-## Using Python
+## En utilisant Python
 
-### Geocoding a single value
+### Géocoder une seule valeur
 
 ```python
 >>> import requests
@@ -17,12 +17,12 @@ for your code. Feel free to add your own usage with a pull-request!
 ```
 
 
-### Geocoding a whole file
+### Géocoder un fichier entier
 
 ```python
 import requests
 
-# Use http://localhost:7878 if you run a local instance.
+# Utillisez http://localhost:7878 si vous utilisez une instance locale.
 ADDOK_URL = 'http://api-adresse.data.gouv.fr/search/csv/'
 
 
@@ -61,18 +61,18 @@ def post_to_addok(filename, filelike_object):
     return filename, response
 
 
-# Geocode your file all at once if it is small.
+# Geocoder votre fichier en une fois s'il est petit.
 geocode('data.csv')
 # => data.geocoded.csv
 
-# Alternatively, geocode it by chunks when it is big.
+# Sinon, geocoder-le par morceaux quand il est gros.
 chunk_by = 50 * 2  # approximative number of lines.
 geocode_chunked('data.csv', 'result-{}.csv', chunk_by)
 # => result-1.geocoded.csv, result-2.geocoded.csv, etc
 ```
 
 
-## Using JavaScript (client-side)
+## En utilisant JavaScript (côté client)
 
 ```html
 <!doctype html>
@@ -80,7 +80,7 @@ geocode_chunked('data.csv', 'result-{}.csv', chunk_by)
 <title>Test addok + fetch</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <script>
-  /* Use http://localhost:7878 if you run a local instance. */
+  /* Utillisez http://localhost:7878 si vous utilisez une instance locale. */
   const url = new URL('http://api-adresse.data.gouv.fr/search')
   const params = {q: 'lil'}
   Object.keys(params).forEach(
@@ -103,7 +103,7 @@ geocode_chunked('data.csv', 'result-{}.csv', chunk_by)
 ```
 
 
-## Using JavaScript (server-side)
+## En utilisant JavaScript (côté serveur)
 
 ```javascript
 const fetch = require('node-fetch'); // npm install node-fetch
@@ -111,7 +111,7 @@ const FormData = require('form-data'); // npm install form-data
 const fs = require('fs');
 
 const form = new FormData();
-      // Find annuaire-des-debits-de-tabac-deb.csv
+      // Trouver annuaire-des-debits-de-tabac-deb.csv
       // at https://gist.github.com/ThomasG77/eaf00981be333a5a995cf87f3d6b3c78
       form.append('data', fs.createReadStream('./annuaire-des-debits-de-tabac-deb.csv'));
       form.append('columns', 'NUMERO ET LIBELLE DE VOIE');
@@ -126,7 +126,7 @@ fetch('http://api-adresse.data.gouv.fr/search/csv/', {
 });
 ```
 
-Or using [request-promise](https://www.npmjs.com/package/request-promise):
+Ou en utilisant [request-promise](https://www.npmjs.com/package/request-promise):
 
 ```javascript
 const fs = require('fs');

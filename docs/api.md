@@ -1,34 +1,34 @@
 # API
 
-Addok exposes an very minimal WSGI interface, you can run it with gunicorn
-for example:
+Addok expose une interface WSGI très minimaliste. Vous pouvez l'exécuter avec
+ gunicorn par exemple:
 
     gunicorn addok.http.wsgi
 
-For debug, you can run the simple Werkzeug server:
+Pour le debug, vous pouvez exécuter le serveur Werkzeug simple:
 
     addok serve
 
-## Endpoints
+## Points d'entrée
 
 ### /search/
 
-Issue a full text search.
+Retourne une recherche plein texte.
 
-#### Parameters
+#### Paramètres
 
-- **q** *(required)*: string to be searched
-- **limit**: limit the number of results (default: 5)
-- **autocomplete**: activate or deactivate the autocompletion (default: 1)
-- **lat**/**lon**: define a center for giving priority to results close to this
-  center (**lng** is also accepted instead of **lon**)
-- every filter that has been declared in the [config](config.md) is available as
-  parameters
+- **q** *(requis)*: chaîne à rechercher
+- **limit**: limiter le nombre de résultats (par défaut: 5)
+- **autocomplete**: activer ou désactiver l'autocompletion (par défault: 1)
+- **lat**/**lon**: définir un centre pour donner une priorité aux résultats
+  proche de de ce centre (**lng** est aussi accepté à la place de **lon**)
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+  disponible en tant que paramètre
 
-#### Response format
+#### Format de la réponse
 
-The response format follows the [GeoCodeJSON spec](https://github.com/geocoders/geocodejson-spec).
-Here is an example:
+Le format de la réponse suit la [spécification GeoCodeJSON](https://github.com/geocoders/geocodejson-spec).
+Voici un exemple:
 
 ```
 {
@@ -84,13 +84,13 @@ Here is an example:
 
 ### /reverse/
 
-Issue a reverse geocoding.
+Retourne un géocodage inverse.
 
-Parameters:
+Paramètres:
 
-- **lat**/**lon** *(required)*: center to reverse geocode (**lng** is also
-  accepted instead of **lon**)
-- every filter that has been declared in the [config](config.md) is available as
-  parameters
+- **lat**/**lon**: centre pour faire un géocodage inverse (**lng** est aussi
+  accepté à la place de **lon**)
+- chaque filtre qui a été déclaré dans la [configuration](config.md) est
+  disponible en tant que paramètre
 
-Same response format as the `/search/` enpoint.
+Le format de réponse est le même que pour le point d'entrée `/search/`.
