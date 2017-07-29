@@ -1,108 +1,105 @@
-# Deploy with Fabric
+# Déploiement avec Fabric
 
-You must use [Fabric](http://www.fabfile.org/) with
-[v2 branch](https://github.com/fabric/fabric/tree/v2)
-to be able to run it with Python 3.
+Vous devez obligatoirement utiliser [Fabric](http://www.fabfile.org/) avec la 
+[branche v2](https://github.com/fabric/fabric/tree/v2)
+pour être capable de l'exécuter avec Python 3.
 
-## Implementation choices
+## Choix d'implémentation
 
-* all commands are idempotent
-* custom configuration file should be inspired by `fabfile/france.fabric.yml`
-  and must be passed to each command with the `--config` parameter
+* toutes les commandes sont idempotents
+* le fichier de configuration personnalisé doit être inspiré de `fabfile/france.fabric.yml`
+  et doit être passé à chaque commande en utilisant le paramètre `--config`
 
 
-## One command to rule-them-all
+## Une commande pour les gouverner toutes
 
 ```bash
 fab --echo --hosts=root@ip --config=fabfile/your-config.yml bootstrap deploy reload
 ```
 
-It will install addok, load data from `data_uri` and expose it through
-uwsgi/nginx.
+Cela va installer Addok, charger la donnée depuis `data_uri` et l'exposer 
+via uwsgi/nginx.
 
-## Settings
+## Configuration
 
 ### `settings`
 
-Custom addok settings file path for your instance.
+Fichier de configuration personnalisé de Addok pour votre instance.
 
 ### `data_uri`
 
-Link to a bziped JSON file to be loaded.
+Lien vers un fichier JSON compressé sous forme bz2 devant être chargé.
 
 ### `domain`
 
-Domain name for your service.
+Nom du domaine pour votre service.
 
-### `plugins` (optional)
+### `plugins` (optionnel)
 
-List of Python packages to be installed as addok plugins.
+Liste des paquets Python devant être installés comme plugins Addok.
 
-### `data` (optional)
+### `data` (optionnel)
 
-Additional data to be loaded as a list of JSON objects.
+Donnée aditionnelle devant être chargée comme une liste d'objets JSON.
 
-### `skip_nginx` (optional)
+### `skip_nginx` (optionnel)
 
-Set to `true` if you want to avoid installing/running nginx.
+Mettre à `true` si vous voulez éviter d'installer/exécuter Nginx.
 
 
-## Commands
+## Commandes
 
 ### `system`
 
-Start with that command to update the system, install dependencies and create
-approriated user and folders.
+Commencez avec cette commande pour mettre à jour le système, installez les 
+dépendances et créez l'utilisateur et les dossiers appropriés.
 
 ### `venv`
 
-Create the virtualenv and update [pip](https://pip.pypa.io/en/stable/).
+Créez l'environnement virtuel et le mettre à jour [pip](https://pip.pypa.io/en/stable/).
 
 ### `settings`
 
-Load custom settings from your local file referenced as `settings`
-in the configuration file.
+Chargez les paramètres personnalisés depuis votre fichier local référencé 
+comme `settings` dans le fichier de configuration.
 
 ### `http`
 
-Install configuration for uwsgi and nginx.
+Installez la configuration pour uwsgi et Nginx.
 
 ### `bootstrap` (meta)
 
-Run commands `system`, `venv`, `settings` and `http`.
+Exécutez les commandes `system`, `venv`, `settings` et `http`.
 
 ### `fetch`
 
-Retrieve the file referenced as `data_uri` in the configuration
-file and unbzip it.
+Récupérez le fichier référencé comme `data_uri` dans le fichier de configuration et le décompresser avec bzip.
 
 ### `batch`
 
-Load the previously fetched file plus optional data from the
-configuration file.
+Chargez le fichier récupéré précdemment plus de manire optionnelle la donnée venant du fichier de configuration.
 
 ### `reload` (meta)
 
-Run `fetch`, stop uwsgi, reset addok database(s), run `batch` and restart
-services.
+Lancez `fetch`, arrêtez uwsgi, faire un reset de(s) base(s) de données Addok, 
+lancez `batch` et redémarrez les services.
 
 ### `deploy`
 
-Install addok and all plugins referenced as `plugins` in the
-configuration file.
+Installez Addok et tous les plugins référencés comme `plugins` dans le fichier de configuration.
 
 ### `restart`
 
-Restart uwsgi and nginx.
+Redémarrez uwsgi et Nginx.
 
 ### `backup`
 
-Bzip and download settings, sqlite and redis database files.
-The downloaded file will be named like `addok-backup.YYYY-MM-DD.tar.bz2`.
+Compressez avec Bzip et télécharger la configuration, les fichiers de base de données sqlite et redis.
+Le fichier téléchrgé sera nommé suivant la convention `addok-backup.YYYY-MM-DD.tar.bz2`.
 
 ### `use_backup`
 
-Use files previously backuped locally with the `backup` command
-and launch a `redis-server`.
-Do not forget to use the appropriated configuration file when you run
-an addok command afterward.
+Utilisez les fichiers sauvegardés antérieurement en local avec la commande `backup`
+et lancez un `redis-server`.
+N'oubliez pas d'utiliser le fichier de configuration approprié quand vous 
+exécutez une commande addok par la suite.
